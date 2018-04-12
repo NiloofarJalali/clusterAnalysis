@@ -2,19 +2,19 @@
 % Please edit documentation in R/cluster_plot.R
 \name{cluster_plot}
 \alias{cluster_plot}
-\title{Cluster plot of clusters}
+\title{Plot of clusters}
 \usage{
 cluster_plot(L, ClusterSubject, n)
 }
 \arguments{
 \item{L}{The list of different clusters}
 
-\item{ClusterSubject}{the vector of disease' symptoms that used for clustering}
+\item{ClusterSubject}{vector of disease symptoms that are used fro clustering}
 
 \item{n}{the minimum prevalence threshold}
 }
 \description{
-Cluster plot of clusters
+Plot of clusters
 }
 \examples{
 example1 <- cluster_plot(

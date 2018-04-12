@@ -7,7 +7,7 @@
 analysis_cluster(input, clusterSubject, clustermax, itermax)
 }
 \arguments{
-\item{input}{the dataframe that need to be clustered (The patientd ID and phenotype are used)}
+\item{input}{the dataframe having patientd ID and phenotype information}
 
 \item{clusterSubject}{A vector of phenotypes or ICD-9 codes of disease of interest that is used to cluster the patients}
 

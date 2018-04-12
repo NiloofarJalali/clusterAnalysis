@@ -2,19 +2,17 @@
 % Please edit documentation in R/build_data.R
 \name{build_data}
 \alias{build_data}
-\title{A function in order to create the data set for the analysis}
+\title{Data preparation function}
 \usage{
-build_data(input, codeRef, RefTable, refPath, minimumAge = 0,
+build_data(observationData, conceptData, demogData, minimumAge = 0,
   maximumAge = 18)
 }
 \arguments{
-\item{input}{Data frame containing clinical data file for analysis}
+\item{observationData}{Data frame containing Observation data file}
 
-\item{codeRef}{XXXX}
+\item{conceptData}{Data frame containing Concept data file}
 
-\item{RefTable}{YYYY}
-
-\item{refPath}{Contains the path and name of the phenotype mapping file}
+\item{demogData}{Data frame containing Demogeraphic data file}
 
 \item{minimumAge}{The minimum age for patients to be included in the analysis.
 By default it is set to 0.}
@@ -23,5 +21,5 @@ By default it is set to 0.}
 By default it is set to 18.}
 }
 \description{
-A function in order to create the data set for the analysis
+Data preparation function
 }

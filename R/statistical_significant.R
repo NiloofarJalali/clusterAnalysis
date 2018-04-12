@@ -1,61 +1,74 @@
-#
-#
-# SSA=function(inputF,inputR){
-#
-#   var1="PATIENT_NUM"
-#   var2="Phenotype"
-#   x2=which( colnames(inputF)==var2 )
-#   x1=which( colnames(inputF)==var1 )
-#
-#   x4=which( colnames(inputR)==var2 )
-#   x3=which( colnames(inputR)==var1 )
-#
-#   A=plyr::count(unique(inputF[,c(x1,x2)])[,2])
-#   A=A[order(A$freq,decreasing= TRUE),]
-#
-#
-#
-#   W=plyr::count(unique(inputR[,c(x3,x4)])[,2])
-#   W=W[order(W$freq,decreasing=TRUE),]
-#
-#
-#   W=merge(W,A,by="x")
-#   alfa=nrow(W)
-#
-#   for(i in 1:nrow(W)){W[i,4]=length(unique(inputR$PATIENT_NUM))-W[i,2]
-#   W[i,5]=length(unique(inputF$PATIENT_NUM))-W[i,3]
-#
-#   Q=matrix(c(W[i,2],W[i,3],W[i,4],W[i,5]),nrow=2,ncol=2)
-#   W[i,6]=chisq.test(Q)[3]
-#   W[i,7]=(W[i,2]*W[i,5])/(W[i,3]*W[i,4])
-#   W[i,8]=exp(log(exp(W[i,7]))-1.96*sqrt(W[i,2]^-1+W[i,3]^-1+W[i,4]^-1+W[i,5]^-1))
-#   W[i,9]=exp(log(exp(W[i,7]))+1.96*sqrt(W[i,2]^-1+W[i,3]^-1+W[i,4]^-1+W[i,5]^-1))
-#
-#   }
-#   W=W[order(W[,2],decreasing=TRUE),]
-#   names(W)[1]="Phenotype"
-#   names(W)[2]="D1+D2+"
-#   names(W)[3]="D1-D2+"
-#   names(W)[4]="D1+D2-"
-#   names(W)[5]="D1-D2-"
-#   names(W)[7]="OR"
-#   names(W)[8]="CI-"
-#   names(W)[9]="CI+"
-#   W=na.omit(W)
-#   ###FDA multiple testing
-#   beta=0.05/alfa
-#   P=1-(1-beta)^alfa
-#   W=W[W$p.value<=P,]
-#   W=W[W[,2]>=10,]
-#   W=W[W$OR>=1.9,]
-#   # W[,2]=sapply(W[,2],function(x) as.numeric(x))
-#
-#   for (i in 2:ncol(W)){W[,i]=sign(W[,i]) * ceiling(abs(W[,i]) * 100) / 100}
-#  # for ( i in 2:ncol(W)){W[,i]=format(round(W[,i], 2), nsmall = 2)}
-#    for (i in 1:ncol(W)){W[,i]=prettyNum(W[,i],big.mark=",",scientific=FALSE)}
-#
-#   return(W)
-# }
+#'Statistical Significant test
+#'@description This function is used to test significance of comorbidities between two subsets of data.
+#'@param DiseaseData1  The primary data frame for defining its associated comorbidities (PAITNET_ID and Phenotype is used)
+#'@param DiseaseData2  The secondary data frame for comparing the association with primary data frame
+#'@param pval          The original p-value before bonferroni multiple testing correction
+#'@param ORmin         The minimum acceptable value for Odd Ratio
+#'@param countmin      The minimum acceptable count of patients from both groups having the same comorbidity
+#'@example
+#'Finding the significant comorbidities associated to ASD patients having GI (Gastrointestinal disease)
+#'    example1 <- ClusterAnalysis(
+#'                     DiseaseData1                =GIASD,
+#'                     DiseaseData2                =noGIASD,
+#'                     pval                        =0.05
+#'                     ORmin                       =1.9
+#'                     countmin                    =10
+#'                         )
+#'
+#'
+#'@export statistical_significant
+
+
+
+
+
+
+
+statistical_significant=function(DiseaseData1,DiseaseData2,pval,ORmin,countmin){
+
+  statResult=plyr::count(unique(DiseaseData1[,c("PATIENT_NUM","Phenotype")])[,2])
+  statResult= statResult[order(statResult$freq,decreasing=TRUE),]
+
+  diseaseCount=plyr::count(unique(DiseaseData2[,c("PATIENT_NUM","Phenotype")])[,2])
+  diseaseCount= diseaseCount[order( diseaseCount$freq,decreasing= TRUE),]
+
+
+  statResult=merge(statResult,diseaseCount,by="x")
+
+  for(i in 1:nrow(statResult)){statResult[i,4]=length(unique(DiseaseData1$PATIENT_NUM))-statResult[i,2]
+  statResult[i,5]=length(unique(DiseaseData2$PATIENT_NUM))-statResult[i,3]
+
+  Q=matrix(c(statResult[i,2],statResult[i,3],statResult[i,4],statResult[i,5]),nrow=2,ncol=2)
+  statResult[i,6]=chisq.test(Q)[3]
+  statResult[i,7]=(statResult[i,2]*statResult[i,5])/(statResult[i,3]*statResult[i,4])
+  statResult[i,8]=exp(log(exp(statResult[i,7]))-1.96*sqrt(statResult[i,2]^-1+statResult[i,3]^-1+statResult[i,4]^-1+statResult[i,5]^-1))
+  statResult[i,9]=exp(log(exp(statResult[i,7]))+1.96*sqrt(statResult[i,2]^-1+statResult[i,3]^-1+statResult[i,4]^-1+statResult[i,5]^-1))
+
+  }
+  statResult=statResult[order(statResult[,2],decreasing=TRUE),]
+  names(statResult)[1]="Phenotype"
+  names(statResult)[2]="D1+D2+"
+  names(statResult)[3]="D1-D2+"
+  names(statResult)[4]="D1+D2-"
+  names(statResult)[5]="D1-D2-"
+  names(statResult)[7]="OR"
+  names(statResult)[8]="CI-"
+  names(statResult)[9]="CI+"
+  statResult=na.omit(statResult)
+  ###FDA multiple testing
+  alfa=nrow(statResult)
+
+  beta=pval/alfa
+  P=1-(1-beta)^alfa
+  statResult=statResult[statResult$p.value<=P,]
+  statResult=statResult[statResult[,2]>=countmin,]
+  statResult=statResult[statResult$OR>=ORmin,]
+
+  for (i in 2:ncol(statResult)){statResult[,i]=sign(statResult[,i]) * ceiling(abs(statResult[,i]) * 100) / 100}
+   for (i in 1:ncol(statResult)){statResult[,i]=prettyNum(statResult[,i],big.mark=",",scientific=FALSE)}
+
+  return(statResult)
+}
 
 
 

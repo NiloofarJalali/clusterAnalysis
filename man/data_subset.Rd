@@ -11,15 +11,15 @@ data_subset(input, ICD_Disease, ICD_Comorbidity, varnoInterest)
 
 \item{ICD_Disease}{vector of ICD-9 codes (character) for selecting the disease}
 
-\item{ICD_Comorbidity}{ICD-9 codes for selecting the comorbidity}
+\item{ICD_Comorbidity}{ICD-9 codes used for defining the comorbidity interval}
 
 \item{varnoInterest}{ICD-9 categorical codes}
 }
 \value{
-A list of Data frames containing the Disease data, Comorbidity data and Disease+comorbidity data
+A list of Data frames containing the Disease data, comorbidity data and Disease+comorbidity data
 }
 \description{
-Data Subgroups definition
+This function is used to define the subsets of disease and comorbidity and disease+comorbidity
 }
 \examples{
 
@@ -30,4 +30,10 @@ example1 <- data_subset(
               varnoInterest      = c("V","E"),
 
               )
+output is list of 3 elements
+output[[1]]= dataset of Disease
+output[[2]]=dataset of comorbidity
+output[[3]]=dataset of Disease+comorbidity
+
+
 }
