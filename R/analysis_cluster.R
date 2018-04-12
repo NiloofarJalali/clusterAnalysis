@@ -15,7 +15,7 @@
 
 
 analysis_cluster=function(input,clusterSubject,clustermax,itermax){
-  install.packages("HDclassif")
+
   library(reshape2)
   library(fpc)
 
