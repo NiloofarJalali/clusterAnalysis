@@ -4,7 +4,7 @@
 \alias{data_subset}
 \title{Data Subgroups definition}
 \usage{
-data_subset(input, ICD_Disease, ICD_Comorbidity, varnoInterest)
+data_subset(input, ICD_Disease, ICD_Comorbidity)
 }
 \arguments{
 \item{input}{Main Data frame containing the disease and comorbidity}
@@ -12,8 +12,6 @@ data_subset(input, ICD_Disease, ICD_Comorbidity, varnoInterest)
 \item{ICD_Disease}{vector of ICD-9 codes (character) for selecting the disease}
 
 \item{ICD_Comorbidity}{ICD-9 codes used for defining the comorbidity interval}
-
-\item{varnoInterest}{ICD-9 categorical codes}
 }
 \value{
 A list of Data frames containing the Disease data, comorbidity data and Disease+comorbidity data
@@ -27,7 +25,7 @@ example1 <- data_subset(
               input              = MasterData,
               ICD_Disease        =c(299.0,299.8,299.9),
               ICD_Comorbidity    =c(530,580,787,788)
-              varnoInterest      = c("V","E"),
+
 
               )
 output is list of 3 elements
