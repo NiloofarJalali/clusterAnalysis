@@ -38,7 +38,7 @@ data_subset=function(input,ICD_Disease,ICD_Comorbidity){
   clusterSubject=unique(clusterSubject$Phenotype)
   DiseaseComoData=diseaseData[diseaseData$PATIENT_NUM %in% comorbidityData$PATIENT_NUM, ]
 
-  return(list(diseaseData,comorbiditySubject,comorbidityData,DiseaseComoData))
+  return(list(diseaseData,clusterSubject,comorbidityData,DiseaseComoData))
 }
 
 
