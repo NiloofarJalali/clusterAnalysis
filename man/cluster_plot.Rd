@@ -4,10 +4,10 @@
 \alias{cluster_plot}
 \title{Plot of clusters}
 \usage{
-cluster_plot(L, ClusterSubject, n)
+cluster_plot(clusterList, ClusterSubject, n)
 }
 \arguments{
-\item{L}{The list of different clusters}
+\item{clusterList}{The list of different clusters}
 
 \item{ClusterSubject}{vector of disease symptoms that are used fro clustering}
 
@@ -18,8 +18,8 @@ Plot of clusters
 }
 \examples{
 example1 <- cluster_plot(
-                      L               =list(subgroup1,subgroup2,subgroup3)
-                      ClusterSubject  =GI$phenotypes
+                      clusterList     =clusterList
+                      ClusterSubject  =clusterSubject
                       n               =5
                     )
 
