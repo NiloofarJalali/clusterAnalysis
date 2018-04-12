@@ -28,10 +28,11 @@ example1 <- data_subset(
 
 
               )
-output is list of 3 elements
+output is list of 4 elements
 output[[1]]= dataset of Disease
-output[[2]]=dataset of comorbidity
-output[[3]]=dataset of Disease+comorbidity
+output[[2]]= clusterSubjects
+output[[3]]=dataset of comorbidity
+output[[4]]=dataset of Disease+comorbidity
 
 
 }

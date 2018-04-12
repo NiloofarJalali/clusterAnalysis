@@ -13,10 +13,11 @@
 #'
 #'
 #'               )
-#' output is list of 3 elements
+#' output is list of 4 elements
 #' output[[1]]= dataset of Disease
-#' output[[2]]=dataset of comorbidity
-#' output[[3]]=dataset of Disease+comorbidity
+#' output[[2]]= clusterSubjects
+#' output[[3]]=dataset of comorbidity
+#' output[[4]]=dataset of Disease+comorbidity
 #'
 #'
 #' @export data_subset
@@ -30,11 +31,11 @@ data_subset=function(input,ICD_Disease,ICD_Comorbidity){
   noInterestCode=input[grep(paste(c("V","E"),collapse = "|"),input$code,ignore.case=TRUE),]
   filterData=input[!input$code %in% noInterestCode$code,]
   filterData$code <- as.numeric(as.character(filterData$code))
-  comorbiditySubject=filterData[filterData$code>=ICD_Comorbidity[1] & filterData$code<ICD_Comorbidity[2] | filterData$code>=ICD_Comorbidity[3] & filterData$code<ICD_Comorbidity[4],]
-  comorbiditySubject=unique(comorbiditySubject)
-  comorbiditySubject=unique(input[input$Phenotype %in% comorbiditySubject$Phenotype,])
-  comorbidityData=input[input$PATIENT_NUM %in% comorbiditySubject$PATIENT_NUM,]
-  comorbiditySubject=unique(comorbiditySubject$Phenotype)
+  clusterSubject=filterData[filterData$code>=ICD_Comorbidity[1] & filterData$code<ICD_Comorbidity[2] | filterData$code>=ICD_Comorbidity[3] & filterData$code<ICD_Comorbidity[4],]
+  clusterSubject=unique(clusterSubject)
+  clusterSubject=unique(input[input$Phenotype %in% clusterSubject$Phenotype,])
+  comorbidityData=input[input$PATIENT_NUM %in% clusterSubject$PATIENT_NUM,]
+  clusterSubject=unique(clusterSubject$Phenotype)
   DiseaseComoData=diseaseData[diseaseData$PATIENT_NUM %in% comorbidityData$PATIENT_NUM, ]
 
   return(list(diseaseData,comorbiditySubject,comorbidityData,DiseaseComoData))
