@@ -22,7 +22,7 @@ Clustering patients based on the disease
 example1 <- ClusterAnalysis(
                     input                =ASDGI patients,
                     clusterSubject       =Gastrointestinal phenotypes,
-                    clustermax                 =5,
+                    clustermax            =5,
                     itermax              =200)
 
 }

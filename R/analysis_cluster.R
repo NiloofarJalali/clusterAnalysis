@@ -7,7 +7,7 @@
 #' example1 <- ClusterAnalysis(
 #'                     input                =ASDGI patients,
 #'                     clusterSubject       =Gastrointestinal phenotypes,
-#'                     clustermax                 =5,
+#'                     clustermax            =5,
 #'                     itermax              =200)
 #'
 #' @export analysis_cluster
@@ -15,6 +15,7 @@
 
 
 analysis_cluster=function(input,clusterSubject,clustermax,itermax){
+  install.packages("HDclassif")
   library(reshape2)
   library(fpc)
 
