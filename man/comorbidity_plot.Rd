@@ -4,10 +4,10 @@
 \alias{comorbidity_plot}
 \title{Comorbidity plot of clusters}
 \usage{
-comorbidity_plot(L, pval)
+comorbidity_plot(clusterList, pval)
 }
 \arguments{
-\item{L}{The list of different clusters}
+\item{clusterList}{The list of different clusters}
 
 \item{pval}{the selected pvalue for defining the significant of each comorbidity}
 }
@@ -16,7 +16,7 @@ Comorbidity plot of clusters
 }
 \examples{
 example1 <- comorbidity_plot(
-                      L    =list(subgroup1,subgroup2,subgroup3)
+                      clusterList   =clusterList
                       pval= 0.05
                     )
 

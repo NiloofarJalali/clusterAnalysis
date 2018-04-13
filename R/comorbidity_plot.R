@@ -1,16 +1,16 @@
 #' Comorbidity plot of clusters
-#' @param L  The list of different clusters
+#' @param clusterList  The list of different clusters
 #' @param pval the selected pvalue for defining the significant of each comorbidity
 
 #' @examples
 #' example1 <- comorbidity_plot(
-#'                       L    =list(subgroup1,subgroup2,subgroup3)
+#'                       clusterList   =clusterList
 #'                       pval= 0.05
 #'                     )
 #'
 #'  @export comorbidity_plot
 
-comorbidity_plot=function(L,pval){
+comorbidity_plot=function(clusterList,pval){
  library(ggplot2)
  comorbidity_group=read.delim(paste0(system.file("extdata", package = "clusterAnalysis"), "/Aggregated_comorbidity.csv"), header=FALSE, sep= ",",colClasses = "character")
  names(comorbidity_group)=comorbidity_group[1,]
@@ -22,10 +22,10 @@ comorbidity_plot=function(L,pval){
   for (i in 1:length(Phenotype))
   {
      subgroup=as.vector(na.omit(comorbidity_group[comorbidity_group$Phenotype==Phenotype[i],1]))
-     name=paste0("Subgroup",1:length(L))
-     prevalence[[i]]=lapply(L, function(x) length(unique(x[x$Phenotype %in% subgroup, 1]))*100/length(unique(x$PATIENT_NUM)))
-     R1=lapply(L, function(x) length(unique(x[x$Phenotype %in% subgroup, 1])))
-     R2=lapply(L, function(x) length(unique(x$PATIENT_NUM))-length(unique(x[x$Phenotype %in% subgroup, 1])))
+     name=paste0("Subgroup",1:length(clusterList))
+     prevalence[[i]]=lapply(clusterList, function(x) length(unique(x[x$Phenotype %in% subgroup, 1]))*100/length(unique(x$PATIENT_NUM)))
+     R1=lapply(clusterList, function(x) length(unique(x[x$Phenotype %in% subgroup, 1])))
+     R2=lapply(clusterList, function(x) length(unique(x$PATIENT_NUM))-length(unique(x[x$Phenotype %in% subgroup, 1])))
      Probability[i]=chisq.test(cbind(unlist(R1),unlist(R2)))[3]
 
    }
