@@ -34,7 +34,6 @@ comorbidity_plot=function(clusterList,pval){
    names(prevalence)=name
    names(Probability)="Pval"
    comorbidity_subgroup=cbind(prevalence,Probability)
-   # rcomorbidity_subgroup=sapply(comorbidity_subgroup,function(x) round(x))
    comorbidity_subgroup=cbind(Phenotype,comorbidity_subgroup)
    comorbidity_plot=comorbidity_subgroup[,1:ncol(comorbidity_subgroup)-1]
    comorbidity_plot=reshape2::melt(comorbidity_plot)
