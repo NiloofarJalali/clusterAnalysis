@@ -37,7 +37,7 @@ cluster_plot=function(clusterList,ClusterSubject,n){
 
   E=Reduce("rbind", mget(paste0("T", 1:length(clusterList))))
   E=E[,c(1,3,4)]
-  p=ggplot(E, aes(fill=condition, y=Prevalence, x=Phenotype))+geom_bar(position= position_dodge(preserve ="single"),stat="identity",width = 0.9) +geom_text(size=4,aes(label=Prevalence), position = position_dodge(width = 0.5),vjust =-0.5, size = 1.5 ,hjust=0.8, inherit.aes = TRUE)
+  p=ggplot(E, aes(fill=condition, y=Prevalence, x=Phenotype))+geom_col(position= "dodge")+scale_fill_discrete(drop=FALSE,stat="identity",width = 0.9) +geom_text(size=4,aes(label=Prevalence), position = position_dodge(width = 0.5),vjust =-0.5, size = 1.5 ,hjust=0.8, inherit.aes = TRUE)
   p+  theme_bw()+theme(axis.text.x = element_text(size=12,angle = 75, hjust = 1),axis.title = element_text(size=12,face="bold"),legend.text = element_text(size=12)) + scale_fill_manual(values=c("#00BFFF","#DAA520", "#ADFF2F","#2F4F4F","#EEE0E5"))
 
 }
