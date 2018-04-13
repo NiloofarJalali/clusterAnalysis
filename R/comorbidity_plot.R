@@ -40,10 +40,11 @@ comorbidity_plot=function(clusterList,pval){
    comorbidity_plot[,3]=round(comorbidity_plot[,3])
    names(comorbidity_plot)[2]="condition"
    names(comorbidity_plot)[3]="Prevalence"
-
+   Rprevalence=sapply(prevalence ,function(x) round(x))
+   cluster_table=cbind(Phenotype,Rprevalence)
    p=ggplot(comorbidity_plot, aes(fill=condition, y=Prevalence, x=Phenotype))+geom_col(position= "dodge")+scale_fill_discrete(drop=FALSE) +geom_text(size=4,aes(label=Prevalence), position = position_dodge(width = 0.5),vjust =-0.5, size = 1.5 ,hjust=1, inherit.aes = TRUE)
    p+  theme_bw()+theme(axis.text.x = element_text(size=14,angle = 75, hjust = 1),axis.title = element_text(size=14,face="bold"),legend.text = element_text(size=15)) + scale_fill_manual(values=c("#00BFFF","#DAA520", "#ADFF2F","#2F4F4F","#EEE0E5"))
-   return(list(p,comorbidity_subgroup))
+   return(list(p,cluster_table))
 }
 
 #
