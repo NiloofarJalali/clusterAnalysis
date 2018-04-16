@@ -1,31 +1,22 @@
 #' Plot of clusters
 #' @param clusterList  The list of different clusters
-#' @param ClusterSubject  vector of disease symptoms that are used fro clustering
+#' @param clusterSubject  vector of disease symptoms that are used fro clustering
 #' @param n the minimum prevalence threshold
 
 #' @examples
 #' example1 <- cluster_plot(
-#'                       clusterList     =clusterList
-#'                       ClusterSubject  =clusterSubject
+#'                       clusterList     =clusterList,
+#'                       clusterSubject  =clusterSubject,
 #'                       n               =5
 #'                     )
 #'
 #'  @export cluster_plot
 
-cluster_plot=function(clusterList,ClusterSubject,n){
+cluster_plot=function(clusterList,clusterSubject,n){
 
    library(ggplot2)
-   Gplot=function(input,ClusterSubject,n){
-    diseaseData=input[input$Phenotype %in% ClusterSubject,]
-     diseaseData=unique( diseaseData[,c("PATIENT_NUM","Phenotype")])
-    d=plyr::count( diseaseData$Phenotype)
-    d$pre=round(d$freq*100/length(unique(diseaseData$PATIENT_NUM)))
-    d=d[d$pre>=n,]
-    names(d)[1]="Phenotype"
-    names(d)[3]="Prevalence"
-    return(d)}
 
-  xdG=lapply(clusterList,function(x) Gplot(x,ClusterSubject,n))
+  xdG=lapply(clusterList,function(x) Gplot(x,clusterSubject,n))
 
   for (i in 1:length(xdG)){
     b=xdG[[i]]
