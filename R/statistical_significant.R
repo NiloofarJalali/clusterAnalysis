@@ -26,14 +26,14 @@
 
 statistical_significant=function(DiseaseData1,DiseaseData2,pval,ORmin,countmin){
 
-  statResult=plyr::count(unique(DiseaseData1[,c("PATIENT_NUM","Phenotype")])[,2])
-  statResult= statResult[order(statResult$freq,decreasing=TRUE),]
+  diseaseCount1=plyr::count(unique(DiseaseData1[,c("PATIENT_NUM","Phenotype")])[,2])
+  diseaseCount1= diseaseCount1[order(diseaseCount1$freq,decreasing=TRUE),]
 
-  diseaseCount=plyr::count(unique(DiseaseData2[,c("PATIENT_NUM","Phenotype")])[,2])
-  diseaseCount= diseaseCount[order( diseaseCount$freq,decreasing= TRUE),]
+  diseaseCount2=plyr::count(unique(DiseaseData2[,c("PATIENT_NUM","Phenotype")])[,2])
+  diseaseCount2= diseaseCount2[order( diseaseCount2$freq,decreasing= TRUE),]
 
 
-  statResult=merge(statResult,diseaseCount,by="x")
+  statResult=merge(diseaseCount1,diseaseCount2,by="x")
 
   for(i in 1:nrow(statResult)){statResult[i,4]=length(unique(DiseaseData1$PATIENT_NUM))-statResult[i,2]
   statResult[i,5]=length(unique(DiseaseData2$PATIENT_NUM))-statResult[i,3]
@@ -57,9 +57,9 @@ statistical_significant=function(DiseaseData1,DiseaseData2,pval,ORmin,countmin){
   statResult=na.omit(statResult)
   ###FDA multiple testing
   alfa=nrow(statResult)
-
-  beta=pval/alfa
-  P=1-(1-beta)^alfa
+  P=pval/alfa
+  # beta=pval/alfa
+  # P=1-(1-beta)^alfa
   statResult=statResult[statResult$p.value<=P,]
   statResult=statResult[statResult[,2]>=countmin,]
   statResult=statResult[statResult$OR>=ORmin,]
