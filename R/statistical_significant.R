@@ -45,9 +45,7 @@ statistical_significant=function(DiseaseData1,DiseaseData2,pval,ORmin,countmin,p
   statResult[i,7]=(statResult[i,2]*statResult[i,5])/(statResult[i,3]*statResult[i,4])
   statResult[i,8]=statResult[i,7]*exp(-qnorm(pt)*SEOR)
   statResult[i,9]=statResult[i,7]*exp(qnorm(pt)*SEOR)
-  # statResult[i,8]=exp(log(exp(statResult[i,7]))-1.96*sqrt(statResult[i,2]^-1+statResult[i,3]^-1+statResult[i,4]^-1+statResult[i,5]^-1))
-  # statResult[i,9]=exp(log(exp(statResult[i,7]))+1.96*sqrt(statResult[i,2]^-1+statResult[i,3]^-1+statResult[i,4]^-1+statResult[i,5]^-1))
-
+  statResult[i,10]=sum(statResult[i,2],statResult[i,3])
   }
   statResult=statResult[order(statResult[,2],decreasing=TRUE),]
   names(statResult)[1]="Phenotype"
@@ -58,6 +56,7 @@ statistical_significant=function(DiseaseData1,DiseaseData2,pval,ORmin,countmin,p
   names(statResult)[7]="OR"
   names(statResult)[8]="CI-"
   names(statResult)[9]="CI+"
+  names(statResult)[10]="Pheno+"
   statResult=na.omit(statResult)
   ###FDA multiple testing
   alfa=nrow(statResult)
