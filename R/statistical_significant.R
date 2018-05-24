@@ -5,6 +5,7 @@
 #'@param pval          The original p-value before bonferroni multiple testing correction
 #'@param ORmin         The minimum acceptable value for Odd Ratio
 #'@param countmin      The minimum acceptable count of patients from both groups having the same comorbidity
+#'@param pt            The confidence interval probability
 #'@example
 #'Finding the significant comorbidities associated to ASD patients having GI (Gastrointestinal disease)
 #'    example1 <- ClusterAnalysis(
@@ -13,6 +14,7 @@
 #'                     pval                        =0.05
 #'                     ORmin                       =1.9
 #'                     countmin                    =10
+#'                     pt                          =0.975
 #'                         )
 #'
 #'
@@ -24,7 +26,7 @@
 
 
 
-statistical_significant=function(DiseaseData1,DiseaseData2,pval,ORmin,countmin){
+statistical_significant=function(DiseaseData1,DiseaseData2,pval,ORmin,countmin,pt){
 
   diseaseCount1=plyr::count(unique(DiseaseData1[,c("PATIENT_NUM","Phenotype")])[,2])
   diseaseCount1= diseaseCount1[order(diseaseCount1$freq,decreasing=TRUE),]
@@ -37,12 +39,14 @@ statistical_significant=function(DiseaseData1,DiseaseData2,pval,ORmin,countmin){
 
   for(i in 1:nrow(statResult)){statResult[i,4]=length(unique(DiseaseData1$PATIENT_NUM))-statResult[i,2]
   statResult[i,5]=length(unique(DiseaseData2$PATIENT_NUM))-statResult[i,3]
-
+  SEOR=sqrt(1/statResult[i,2]+1/statResult[i,3]+1/statResult[i,4]+1/statResult[i,5])
   Q=matrix(c(statResult[i,2],statResult[i,3],statResult[i,4],statResult[i,5]),nrow=2,ncol=2)
   statResult[i,6]=chisq.test(Q)[3]
   statResult[i,7]=(statResult[i,2]*statResult[i,5])/(statResult[i,3]*statResult[i,4])
-  statResult[i,8]=exp(log(exp(statResult[i,7]))-1.96*sqrt(statResult[i,2]^-1+statResult[i,3]^-1+statResult[i,4]^-1+statResult[i,5]^-1))
-  statResult[i,9]=exp(log(exp(statResult[i,7]))+1.96*sqrt(statResult[i,2]^-1+statResult[i,3]^-1+statResult[i,4]^-1+statResult[i,5]^-1))
+  statResult[i,8]=statResult[i,7]*exp(-qnorm(pt)*SEOR)
+  statResult[i,9]=statResult[i,7]*exp(qnorm(pt)*SEOR)
+  # statResult[i,8]=exp(log(exp(statResult[i,7]))-1.96*sqrt(statResult[i,2]^-1+statResult[i,3]^-1+statResult[i,4]^-1+statResult[i,5]^-1))
+  # statResult[i,9]=exp(log(exp(statResult[i,7]))+1.96*sqrt(statResult[i,2]^-1+statResult[i,3]^-1+statResult[i,4]^-1+statResult[i,5]^-1))
 
   }
   statResult=statResult[order(statResult[,2],decreasing=TRUE),]
@@ -58,14 +62,13 @@ statistical_significant=function(DiseaseData1,DiseaseData2,pval,ORmin,countmin){
   ###FDA multiple testing
   alfa=nrow(statResult)
   P=pval/alfa
-  # beta=pval/alfa
-  # P=1-(1-beta)^alfa
+
   statResult=statResult[statResult$p.value<=P,]
   statResult=statResult[statResult[,2]>=countmin,]
   statResult=statResult[statResult$OR>=ORmin,]
 
   for (i in 2:ncol(statResult)){statResult[,i]=sign(statResult[,i]) * ceiling(abs(statResult[,i]) * 100) / 100}
-   for (i in 1:ncol(statResult)){statResult[,i]=prettyNum(statResult[,i],big.mark=",",scientific=FALSE)}
+   # for (i in 1:ncol(statResult)){statResult[,i]=prettyNum(statResult[,i],big.mark=",",scientific=FALSE)}
 
   return(statResult)
 }
