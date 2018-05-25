@@ -63,7 +63,7 @@ statistical_significant=function(DiseaseData1,DiseaseData2,pval,ORmin,countmin,p
   P=pval/alfa
 
   statResult=statResult[statResult$p.value<=P,]
-  statResult=statResult[statResult[,2]>=countmin,]
+  statResult=statResult[statResult[,"Pheno+"]>=countmin,]
   statResult=statResult[statResult$OR>=ORmin,]
 
   for (i in 2:ncol(statResult)){statResult[,i]=sign(statResult[,i]) * ceiling(abs(statResult[,i]) * 100) / 100}
