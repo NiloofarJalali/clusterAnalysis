@@ -4,7 +4,7 @@
 \alias{statistical_significant}
 \title{Statistical Significant test}
 \usage{
-statistical_significant(DiseaseData1, DiseaseData2, pval, ORmin, countmin)
+statistical_significant(DiseaseData1, DiseaseData2, pval, ORmin, countmin, pt)
 }
 \arguments{
 \item{DiseaseData1}{The primary data frame for defining its associated comorbidities (PAITNET_ID and Phenotype is used)}
@@ -16,6 +16,8 @@ statistical_significant(DiseaseData1, DiseaseData2, pval, ORmin, countmin)
 \item{ORmin}{The minimum acceptable value for Odd Ratio}
 
 \item{countmin}{The minimum acceptable count of patients from both groups having the same comorbidity}
+
+\item{pt}{The confidence interval probability}
 }
 \description{
 This function is used to test significance of comorbidities between two subsets of data.
