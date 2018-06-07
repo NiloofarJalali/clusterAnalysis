@@ -4,7 +4,7 @@
 #'@param clustermax Maximum threshold of number of clusters that is defined for mode-based cluster function
 #'@param itermax Maximum number of iteration to analysis
 #'@examples
-#' example1 <- ClusterAnalysis(
+#' example1 <- analysis_cluster (
 #'                     input                =ASDGI patients,
 #'                     clusterSubject       =Gastrointestinal phenotypes,
 #'                     clustermax            =5,

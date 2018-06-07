@@ -19,7 +19,7 @@ analysis_cluster(input, clusterSubject, clustermax, itermax)
 Clustering patients based on the disease
 }
 \examples{
-example1 <- ClusterAnalysis(
+example1 <- analysis_cluster (
                     input                =ASDGI patients,
                     clusterSubject       =Gastrointestinal phenotypes,
                     clustermax            =5,
