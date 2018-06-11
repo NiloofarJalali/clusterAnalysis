@@ -4,7 +4,7 @@
 \alias{analysis_cluster}
 \title{Clustering patients based on the disease}
 \usage{
-analysis_cluster(input, clusterSubject, clustermax, itermax)
+analysis_cluster(input, clusterSubject, clustermax, itermax, mc)
 }
 \arguments{
 \item{input}{the dataframe having patientd ID and phenotype information}
@@ -14,6 +14,8 @@ analysis_cluster(input, clusterSubject, clustermax, itermax)
 \item{clustermax}{Maximum threshold of number of clusters that is defined for mode-based cluster function}
 
 \item{itermax}{Maximum number of iteration to analysis}
+
+\item{mc}{number of cores for cluster Analysis}
 }
 \description{
 Clustering patients based on the disease
@@ -23,6 +25,7 @@ example1 <- analysis_cluster (
                     input                =ASDGI patients,
                     clusterSubject       =Gastrointestinal phenotypes,
                     clustermax            =5,
-                    itermax              =200)
+                    itermax              =200,
+                    mc                   =2)
 
 }
