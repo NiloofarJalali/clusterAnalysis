@@ -3,18 +3,20 @@
 #'@param clusterSubject A vector of phenotypes or ICD-9 codes of disease of interest that is used to cluster the patients
 #'@param clustermax Maximum threshold of number of clusters that is defined for mode-based cluster function
 #'@param itermax Maximum number of iteration to analysis
+#'@param mc number of cores for cluster Analysis
 #'@examples
 #' example1 <- analysis_cluster (
 #'                     input                =ASDGI patients,
 #'                     clusterSubject       =Gastrointestinal phenotypes,
 #'                     clustermax            =5,
-#'                     itermax              =200)
+#'                     itermax              =200
+#'                     mc                   =2)
 #'
 #' @export analysis_cluster
 
 
 
-analysis_cluster=function(input,clusterSubject,clustermax,itermax){
+analysis_cluster=function(input,clusterSubject,clustermax,itermax,mc){
 
   library(reshape2)
   library(fpc)
@@ -31,7 +33,7 @@ analysis_cluster=function(input,clusterSubject,clustermax,itermax){
                        criterion = "bic", com_dim = ncol( ClusterObject), itermax = itermax, eps = 0.05,
                        algo = "SEM", d_select = "Cattell", init = "mini-em", init.vector,
                        show = FALSE, mini.nb = c(5, 10), scaling = FALSE, min.individuals = 2,
-                       noise.ctrl = 1e-08, mc.cores = 1, nb.rep = 1, keepAllRes = TRUE,
+                       noise.ctrl = 1e-08, mc.cores = mc, nb.rep = 1, keepAllRes = TRUE,
                        kmeans.control = list(), d_max =nrow( ClusterObject))
 
 
