@@ -11,6 +11,8 @@ analysis_cluster(input, clusterSubject, Model, clustermax, itermax, mc)
 
 \item{clusterSubject}{A vector of phenotypes or ICD-9 codes of disease of interest that is used to cluster the patients}
 
+\item{Model}{What Cluster model you are selecting!For example Model=Patients will cluster the patients based on different phenotypes}
+
 \item{clustermax}{Maximum threshold of number of clusters that is defined for mode-based cluster function}
 
 \item{itermax}{Maximum number of iteration to analysis}
