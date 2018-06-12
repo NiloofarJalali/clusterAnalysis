@@ -4,27 +4,31 @@
 #'@param clustermax Maximum threshold of number of clusters that is defined for mode-based cluster function
 #'@param itermax Maximum number of iteration to analysis
 #'@param mc number of cores for cluster Analysis
+#'@param Model What Cluster model you are selecting!For example Model=Patients will cluster the patients based on different phenotypes
 #'@examples
 #' example1 <- analysis_cluster (
 #'                     input                =ASDGI patients,
 #'                     clusterSubject       =Gastrointestinal phenotypes,
 #'                     clustermax            =5,
-#'                     itermax              =200
-#'                     mc                   =2)
+#'                     itermax              =200,
+#'                     mc                   =2,
+#'                     Model                =Phenotype)
 #'
 #' @export analysis_cluster
 
 
 
-analysis_cluster=function(input,clusterSubject,clustermax,itermax,mc){
+analysis_cluster=function(input,clusterSubject,Model,clustermax,itermax,mc){
 
   library(reshape2)
   library(fpc)
 
   L=list()
   selectInput=unique(input[,c("PATIENT_NUM","Phenotype")])
+  V=names(selectInput)
+
   selectInput=selectInput[selectInput$Phenotype %in% clusterSubject,]
-  MatrixInput=dcast(selectInput,PATIENT_NUM~Phenotype)
+  MatrixInput=dcast(selectInput,Model~V[!V%in% Model])
   MatrixInput[is.na(MatrixInput)]=0
   ClusterObject=apply(MatrixInput[,2:ncol(MatrixInput)], c(1,2), function(x) if (x!=0) x=1 else(x=0))
   ClusterObject=apply( ClusterObject, 2,as.numeric)
