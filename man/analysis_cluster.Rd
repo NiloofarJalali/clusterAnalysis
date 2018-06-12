@@ -4,7 +4,7 @@
 \alias{analysis_cluster}
 \title{Clustering patients based on the disease}
 \usage{
-analysis_cluster(input, clusterSubject, clustermax, itermax, mc)
+analysis_cluster(input, clusterSubject, Model, clustermax, itermax, mc)
 }
 \arguments{
 \item{input}{the dataframe having patientd ID and phenotype information}
