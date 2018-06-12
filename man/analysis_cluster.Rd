@@ -28,6 +28,7 @@ example1 <- analysis_cluster (
                     clusterSubject       =Gastrointestinal phenotypes,
                     clustermax            =5,
                     itermax              =200,
-                    mc                   =2)
+                    mc                   =2,
+                    Model                =Phenotype)
 
 }
