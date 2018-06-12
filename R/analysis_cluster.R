@@ -30,7 +30,7 @@ analysis_cluster=function(input,clusterSubject,Model,clustermax,itermax,mc){
   selectInput=selectInput[selectInput$Phenotype %in% clusterSubject,]
   MatrixInput=dcast(selectInput,Model~V[!V%in% Model])
   MatrixInput[is.na(MatrixInput)]=0
-  ClusterObject=apply(MatrixInput[,2:ncol(MatrixInput)], c(1,2), function(x) if (x!=0) x=1 else(x=0))
+  ClusterObject=apply(MatrixInput[,2:ncol(MatrixInput)], c(1,2), function(x) ifelse(x!=0, 1, 0 ))
   ClusterObject=apply( ClusterObject, 2,as.numeric)
   ClusterObject= ClusterObject[,-1]
   CSR2=HDclassif::hddc( ClusterObject, K = 1:clustermax, model =c("akjbkqkdk"), threshold = 0.2,
